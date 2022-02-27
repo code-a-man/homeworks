@@ -3,85 +3,85 @@ using System.Collections.Generic;
 using System.Globalization;
 
 
-namespace Ödev1
+namespace Week1
 {
     class Program
     {
         static void Main(string[] args)
         {
 
-            Console.Write("Ad: ");
-            string ad = Console.ReadLine();
-            Console.Write("Soyad: ");
-            string soyad = Console.ReadLine();
+            Console.Write("Name: ");
+            string name = Console.ReadLine();
+            Console.Write("Surname: ");
+            string surname = Console.ReadLine();
             Console.Write("No: ");
             int no = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Tarih (dd/mm/YYYY): ");
-            string tarih = Console.ReadLine();
-            Console.Write("Ders Sayısı: ");
-            int dersSayı = Convert.ToInt32(Console.ReadLine());
-            while (dersSayı < 9){
-            Console.Write("Ders Sayısı: ");
-            dersSayı = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Birth Date (dd/mm/YYYY): ");
+            string date = Console.ReadLine();
+            Console.Write("Lessons count: ");
+            int lessonsCount = Convert.ToInt32(Console.ReadLine());
+            while (lessonsCount < 9){
+            Console.Write("Lessons count: ");
+            lessonsCount = Convert.ToInt32(Console.ReadLine());
             }
             
-            List<Ders> dersler = new List<Ders>();
-            int sonRakam = (no % 10);
-            double vizeOran;
-            if (ad.Length > soyad.Length)
+            List<Lesson> lessons = new List<Lesson>();
+            int lastDigit = (no % 10);
+            double midtermRate;
+            if (name.Length > surname.Length)
             {
-                vizeOran = 0.3;
+                midtermRate = 0.3;
             }
-            else if (ad.Length < soyad.Length)
+            else if (name.Length < surname.Length)
             {
-                vizeOran = 0.6;
+                midtermRate = 0.6;
             }
             else
             {
-                if (sonRakam % 2 == 0)
+                if (lastDigit % 2 == 0)
                 {
-                    vizeOran = 0.35;
+                    midtermRate = 0.35;
                 }
                 else
                 {
-                    vizeOran = 0.25;
+                    midtermRate = 0.25;
                 }
             }
-            double finalOran = 1.0 - vizeOran;
+            double finalRate = 1.0 - midtermRate;
 
-            for (int i = 0; i < dersSayı; i++) 
+            for (int i = 0; i < lessonsCount; i++) 
             {
-                Console.Write($"{i+1}.Ders Adı: ");
-                string dersAdı = Console.ReadLine();
-                Console.Write($"{i+1}.Ders Vize: ");
-                int dersVize = Convert.ToInt32(Console.ReadLine());
-                Console.Write($"{i+1}.Ders Final: ");
-                int dersFinal = Convert.ToInt32(Console.ReadLine());
-                int ortalama = Convert.ToInt32(dersVize * vizeOran + dersFinal * finalOran);
-                dersler.Add(new Ders {ad = dersAdı, vize = dersVize, final = dersFinal, ort = ortalama});
+                Console.Write($"{i+1}. Lesson Title: ");
+                string lessonTitle = Console.ReadLine();
+                Console.Write($"{i+1}. Lesson Midterm: ");
+                int lessonMidterm = Convert.ToInt32(Console.ReadLine());
+                Console.Write($"{i+1}. Lesson Final: ");
+                int lessonFinal = Convert.ToInt32(Console.ReadLine());
+                int lessonAverage = Convert.ToInt32(lessonMidterm * midtermRate + lessonFinal * finalRate);
+                lessons.Add(new Lesson {title = lessonTitle, midterm = lessonMidterm, final = lessonFinal, average = lessonAverage});
 
             }
             
 
-            DateTime doğumGünü = DateTime.ParseExact(tarih, "dd/MM/yyyy", new CultureInfo("tr-TR"));
-            DateTime bugün = DateTime.Today;
-            int yaş = bugün.Year - doğumGünü.Year;
-            if (bugün.Month < doğumGünü.Month || (bugün.Month == doğumGünü.Month && bugün.Day < doğumGünü.Day)) yaş--;
+            DateTime birthday = DateTime.ParseExact(date, "dd/MM/yyyy", new CultureInfo("tr-TR"));
+            DateTime today = DateTime.Today;
+            int age = today.Year - birthday.Year;
+            if (today.Month < birthday.Month || (today.Month == birthday.Month && today.Day < birthday.Day)) age--;
 
-            Console.WriteLine($"Sayın {ad} {soyad}, {yaş} yaşındasınız.");
-            foreach(Ders ders in dersler)
+            Console.WriteLine($"Dear {name} {surname}, you are {age} years old.");
+            foreach(Lesson lesson in lessons)
             {
-                Console.WriteLine($"Ders Adı: {ders.ad}, Vize Notu: {ders.vize}, Final Notu: {ders.final}, Ortalama Notu: {ders.ort} ");
+                Console.WriteLine($"Lesson Title: {lesson.title}, Midterm Grade: {lesson.midterm}, Final Grade: {lesson.final}, Average Grade: {lesson.average} ");
             }
 
         }
 
-        internal class Ders
+        internal class Lesson
         {
-        public string ad { get; set; }
-        public int vize { get; set; }
+        public string title { get; set; }
+        public int midterm { get; set; }
         public int final { get; set; }
-        public int ort { get; set; }
+        public int average { get; set; }
         }
 }
 }
